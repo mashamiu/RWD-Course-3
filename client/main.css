@@ -1,0 +1,14 @@
+/* CSS declarations go here */
+
+/* CSS declarations go here */
+.hidden_div {
+    display:none;
+}
+
+.website-title {
+    display: inline-block;
+}
+
+.website-title-label {
+    vertical-align: super;
+}

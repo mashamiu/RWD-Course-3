@@ -1,0 +1,130 @@
+<head>
+  <title>Site Ace</title>
+</head>
+
+<template name="site_ace">
+  <body>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">
+            Site Ace
+          </a>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+          {{> loginButtons}}
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container">
+      {{> yield "content"}}
+    </div>
+  </body>
+  
+</template>
+
+<!-- Home page -->
+<template name="home">
+  {{> website_form}}
+  {{> website_list}}
+</template>
+
+<template name="website_form">
+  <a class="btn btn-default js-toggle-website-form" href="#">
+      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+  </a>
+  <div id="website_form" class="hidden_div">
+    <form class="js-save-website-form">
+      <div class="form-group">
+        <label for="url">Site address</label>
+        <input type="text" class="form-control" id="url" placeholder="http://www.mysite.com">
+      </div>
+      <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+  </div>
+</template>
+
+<!-- template that displays several website items -->
+<template name="website_list">
+  <ol>
+  {{#each websites}}
+  {{> website_item}}
+  {{/each}}
+  </ol>
+</template>
+
+<!-- template that displays individual website entries -->
+<template name="website_item">
+<li>
+  <a href="{{_id}}">{{title}}</a> <!-- falta un href="{{url}}" -->
+  <p>
+    Added on {{format_date}}.
+  </p>
+  <button type="button" class="btn btn-xs btn-success js-upvote">
+    <span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span>
+    {{#if upvotes}}
+      <span class="badge">{{upvotes}}</span>
+    {{else}}
+      <span class="badge">0</span>
+    {{/if}}
+  </button>
+  <button type="button" class="btn btn-xs btn-danger js-downvote">
+    <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span>
+    {{#if downvotes}}
+      <span class="badge">{{downvotes}}</span>
+    {{else}}
+      <span class="badge">0</span>
+    {{/if}}
+  </button>
+</li>
+</template>
+
+<!-- Single website page templates-->
+<template name="website">
+  <h1 class="website-title">
+    {{title}}
+  </h1>
+  <button class="btn btn-xs btn-success website-title-label js-upvote">
+    <span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span>
+    {{upvotes}}
+  </button>
+  <button class="btn btn-xs btn-danger website-title-label js-downvote">
+    <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span>
+    {{downvotes}}
+  </button>
+  <p>{{description}}</p>
+  <p>URL: <a href="{{url}}">{{url}}</a></p>
+  {{> website_comments}}
+</template>
+
+<template name="website_comments">
+  <div id="comment_form">
+    <form class="js-save-comment-form">
+      <div class="form-group">
+        <label for="comment">Comment</label>
+        <textarea class="form-control" id="comment" placeholder="{{placeholder}}"></textarea>
+      </div>
+      <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+  </div>
+
+  {{#if comments_exist}}
+    <h3>Older comments</h3>
+    {{#each comments}}
+    {{> website_comment_item}}
+    {{/each}}
+  {{else}}
+  {{/if}}
+</template>
+
+<template name="website_comment_item">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">{{comment_author}} says:</h4>
+    </div>
+    <div class="panel-body">
+      {{content}}
+    </div>
+  </div>
+</template>
